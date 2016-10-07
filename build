@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Build script to validate greenpithumb
+# Build script to validate blackjack
 
 # Exit build script on first failure
 set -e
