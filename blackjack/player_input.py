@@ -26,7 +26,6 @@ class PlayerInput(object):
                "addition, we have some house rules: We don't offer insurance, "
                "we only allow one split per hand, and we don't allow doubling "
                "down after a split.")
-        self.wait_for_enter()
         while True:
             try:
                 buy_in = int(input_func("\nHow much would you like to buy in "

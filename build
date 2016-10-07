@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Build script to validate greenpithumb
+
+# Exit build script on first failure
+set -e
+
+# Run unit tests and calculate code coverage.
+coverage run \
+  --source blackjack \
+  -m unittest discover
