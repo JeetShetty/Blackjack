@@ -27,8 +27,8 @@ class Hand(object):
     def deal_hand(self, shoe):
         """Deals a new 2 card blackjack hand.
 
-            Args:
-                shoe: Blackjack shoe that cards are dealt from.
+        Args:
+            shoe: Blackjack shoe that cards are dealt from.
         """
         self._cards = (shoe.deal_card(), shoe.deal_card())
         for card in self._cards:
@@ -37,8 +37,9 @@ class Hand(object):
 
     def hit(self, shoe):
         """Adds a card to the hand when the player or dealer hits.
-            Args:
-                shoe: Blackjack shoe that cards are dealt from.
+
+        Args:
+            shoe: Blackjack shoe that cards are dealt from.
         """
         self._cards += shoe.deal_card(),
         if self._cards[-1].rank == 'A':

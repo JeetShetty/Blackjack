@@ -117,6 +117,7 @@ class TestHand(unittest.TestCase):
 
         hand_value = bj_hand.hand_value()
         self.assertEqual(hand_value, 17)
+
     def test_number_of_splits(self):
         mock_shoe = mock.Mock()
         mock_card = mock.Mock()
@@ -198,8 +199,3 @@ class TestHand(unittest.TestCase):
         bj_hand.deal_hand(mock_shoe)
         bj_hand.hit(mock_shoe)
         self.assertFalse(bj_hand.double_down_allowed())
-
-
-
-
-
