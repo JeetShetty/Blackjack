@@ -33,18 +33,18 @@ class Round(object):
                    "marker for the remainder of the hand.")
         self._time.sleep(2)
 
-    def deal_hands(self, shoe):
+    def deal_hands(self, shoe, hand=hand.Hand):
         """Deals hands to both the player and the dealer.
 
         Sets natural attributes to True if there are any.
 
         Args:
             shoe: The shoe in use for this round.
-            hand_instantiator: Function to create a new hand instance.
+            hand: New hand instantiator.
         """
-        self._dealer_hand = hand.Hand()
+        self._dealer_hand = hand()
         self._dealer_hand.deal_hand(shoe)
-        self._player_hands.append(hand.Hand())
+        self._player_hands.append(hand())
         self._player_hands[0].deal_hand(shoe)
 
         self.dealer_natural = self._dealer_hand.hand_value() == 21

@@ -13,6 +13,38 @@ class TestRound(unittest.TestCase):
         self.mock_shoe = mock.Mock()
         self.mock_bankroll = mock.Mock()
 
+    def test_deal_hands_dealer_natural(self):
+        mock_player_input = mock.Mock()
+        mock_hand_generator = mock.Mock()
+        mock_hand_one = mock.Mock()
+        mock_hand_two = mock.Mock()
+        mock_hand_generator.side_effect = [mock_hand_one, mock_hand_two]
+        mock_hand_one.hand_value.return_value = 21
+        mock_hand_two.hand_value.return_value = 15
+        bj_round = round.Round(self.mock_time, mock_player_input,
+                               self.mock_bankroll)
+        bj_round.deal_hands(self.mock_shoe, mock_hand_generator)
+        self.assertEqual(bj_round._dealer_hand, mock_hand_one)
+        self.assertEqual(bj_round._player_hands, [mock_hand_two])
+        self.assertTrue(bj_round.dealer_natural)
+        self.assertFalse(bj_round.player_natural)
+
+    def test_deal_hands_player_natural(self):
+        mock_player_input = mock.Mock()
+        mock_hand_generator = mock.Mock()
+        mock_hand_one = mock.Mock()
+        mock_hand_two = mock.Mock()
+        mock_hand_generator.side_effect = [mock_hand_one, mock_hand_two]
+        mock_hand_one.hand_value.return_value = 15
+        mock_hand_two.hand_value.return_value = 21
+        bj_round = round.Round(self.mock_time, mock_player_input,
+                               self.mock_bankroll)
+        bj_round.deal_hands(self.mock_shoe, mock_hand_generator)
+        self.assertEqual(bj_round._dealer_hand, mock_hand_one)
+        self.assertEqual(bj_round._player_hands, [mock_hand_two])
+        self.assertFalse(bj_round.dealer_natural)
+        self.assertTrue(bj_round.player_natural)
+
     def test_double_down(self):
         mock_player_input = mock.Mock()
         mock_player_input.bet.return_value = 250
