@@ -3,7 +3,7 @@ import unittest
 
 import mock
 
-from blackjack import shoe
+from blackjack import bj_shoe
 
 
 class TestShoe(unittest.TestCase):
@@ -17,15 +17,15 @@ class TestShoe(unittest.TestCase):
         mock_shuffle_function = mock.Mock()
         mock_deck.cards = [0, 1, 2]
         mock_shuffle_function.side_effect = self.shuffle
-        blackjack_shoe = shoe.Shoe(mock_deck, shoe_size, mock_shuffle_function)
+        shoe = bj_shoe.Shoe(mock_deck, shoe_size, mock_shuffle_function)
 
-        self.assertEqual(blackjack_shoe._cards, [2, 1, 2, 0, 1, 0])
+        self.assertEqual(shoe._cards, [2, 1, 2, 0, 1, 0])
 
     def test_deal_card(self):
         mock_deck = mock.Mock()
         shoe_size = 2
         mock_shuffle_function = mock.Mock()
         mock_deck.cards = [0, 1, 2]
-        blackjack_shoe = shoe.Shoe(mock_deck, shoe_size, mock_shuffle_function)
+        shoe = bj_shoe.Shoe(mock_deck, shoe_size, mock_shuffle_function)
 
-        self.assertEqual(blackjack_shoe.deal_card(), 2)
+        self.assertEqual(shoe.deal_card(), 2)

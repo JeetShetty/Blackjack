@@ -1,5 +1,4 @@
 import random
-import deck
 
 
 class Shoe(object):
