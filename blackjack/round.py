@@ -1,5 +1,3 @@
-import time
-
 import hand
 import player_input
 
