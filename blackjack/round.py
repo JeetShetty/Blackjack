@@ -57,15 +57,15 @@ class Round(object):
         """
         print "\nDealer's hand: ",
         if player_action_finished:
-            self._dealer_hand.display_hand()
+            print self._dealer_hand.display_hand()
         else:
-            self._dealer_hand.display_one_dealer_card()
+            print self._dealer_hand.display_one_dealer_card()
 
     def display_player_hands(self):
         """Prints player hands."""
         print "\nYour hand: ",
         for hand in self._player_hands:
-            hand.display_hand()
+            print hand.display_hand()
 
     def _double_down(self):
         """Doubles the bet when the player doubles down."""
@@ -87,8 +87,7 @@ class Round(object):
             shoe: Blackjack shoe.
         """
         skip_dealer_playthrough = False
-        print "\nHand: ",
-        self._player_hands[0].display_hand()
+        print "\nHand: ", self._player_hands[0].display_hand()
         action = self._player_input.action(self._player_hands[0])
 
         if action == 'st':
@@ -111,8 +110,7 @@ class Round(object):
             self._double_down()
             self._player_hands[0].hit(shoe)
             hand_value = self._player_hands[0].hand_value()
-            print "\nYour final hand is: ",
-            self._player_hands[0].display_hand()
+            print "\nYour final hand is: ", self._player_hands[0].display_hand()
             print "\nYour final hand value is %s" % (hand_value)
             if hand_value > 21:
                 skip_dealer_playthrough = True
@@ -125,16 +123,15 @@ class Round(object):
             while True:
                 hand_value = hand.hand_value()
                 if hand_value >= 21:
-                    print "\nYour final hand is ",
-                    self._player_hands[0].display_hand()
+                    print "\nYour final hand is %s" % (
+                        self._player_hands[0].display_hand())
                     print "\nYour final hand value is %s" % (hand_value)
                     if hand_value > 21:
                         print "Unfortunately you busted."
                         if hand._split_count == 0:
                             skip_dealer_playthrough = True
                     break
-                print "Hand: ",
-                hand.display_hand()
+                print "Hand: ", hand.display_hand()
                 action = self._player_input.action(hand)
                 if action == 'h':
                     hand.hit(shoe)
@@ -151,8 +148,7 @@ class Round(object):
             shoe: Blackjack shoe
         """
         self._player_input.wait_for_enter()
-        print "\nDealer's hand: ",
-        self._dealer_hand.display_hand()
+        print "\nDealer's hand: ", self._dealer_hand.display_hand()
         if self._dealer_hand.hand_value() >= 17:
             pass
         else:
@@ -160,8 +156,7 @@ class Round(object):
                 self._dealer_hand.hit(shoe)
                 print "Dealer hits."
                 self._time.sleep(2)
-                print "Dealer's hand: ",
-                self._dealer_hand.display_hand()
+                print "Dealer's hand: ", self._dealer_hand.display_hand()
 
         self._time.sleep(2)
         if self._dealer_hand.hand_value() <= 21:

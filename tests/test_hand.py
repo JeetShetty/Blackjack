@@ -137,11 +137,11 @@ class TestHand(unittest.TestCase):
         bj_hand = hand.Hand()
         bj_hand.deal_hand(mock_shoe)
         #two card hand can split
-        self.assertLess(bj_hand._split_count, 2)
+        self.assertLess(bj_hand.split_count, 2)
         self.assertTrue(bj_hand.split_allowed())
         bj_hand.hit(mock_shoe)
         #three card hand cannot split
-        self.assertLess(bj_hand._split_count, 2)
+        self.assertLess(bj_hand.split_count, 2)
         self.assertFalse(bj_hand.split_allowed())
 
     def test_rank_equal_split_allowed(self):
@@ -154,7 +154,7 @@ class TestHand(unittest.TestCase):
         bj_hand = hand.Hand()
         bj_hand.deal_hand(mock_shoe)
 
-        self.assertLess(bj_hand._split_count, 2)
+        self.assertLess(bj_hand.split_count, 2)
         self.assertEqual(2, len(bj_hand._cards))
         self.assertTrue(bj_hand.split_allowed())
 
@@ -168,7 +168,7 @@ class TestHand(unittest.TestCase):
         bj_hand = hand.Hand()
         bj_hand.deal_hand(mock_shoe)
 
-        self.assertLess(bj_hand._split_count, 2)
+        self.assertLess(bj_hand.split_count, 2)
         self.assertEqual(2, len(bj_hand._cards))
         self.assertFalse(bj_hand.split_allowed())
 
@@ -198,3 +198,29 @@ class TestHand(unittest.TestCase):
         bj_hand.deal_hand(mock_shoe)
         bj_hand.hit(mock_shoe)
         self.assertFalse(bj_hand.double_down_allowed())
+
+    def test_display_hand(self):
+        mock_shoe = mock.Mock()
+        mock_card_one = mock.Mock()
+        mock_card_one.rank = '5'
+        mock_card_one.suit = 's'
+        mock_card_two = mock.Mock()
+        mock_card_two.rank = 'K'
+        mock_card_two.suit = 'h'
+        mock_shoe.deal_card.side_effect = [mock_card_one, mock_card_two]
+        bj_hand = hand.Hand()
+        bj_hand.deal_hand(mock_shoe)
+        self.assertEqual('5sKh', bj_hand.display_hand())
+
+    def test_display_one_dealer_card(self):
+        mock_shoe = mock.Mock()
+        mock_card_one = mock.Mock()
+        mock_card_one.rank = '5'
+        mock_card_one.suit = 's'
+        mock_card_two = mock.Mock()
+        mock_card_two.rank = 'K'
+        mock_card_two.suit = 'h'
+        mock_shoe.deal_card.side_effect = [mock_card_one, mock_card_two]
+        dealer_hand = hand.Hand()
+        dealer_hand.deal_hand(mock_shoe)
+        self.assertEqual('5s', dealer_hand.display_one_dealer_card())

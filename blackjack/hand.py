@@ -13,7 +13,8 @@ class Hand(object):
             split_card: The card that was in the split hand that will now make
                 up the new hand.
         """
-        self._split_count = split_count
+        self.split_count = split_count
+        self.split_aces = False
         self._ace_count = 0
         self._doubled_down = False
         self._cards = ()
@@ -22,7 +23,8 @@ class Hand(object):
             self._cards = split_card,
             if self._cards[0].rank == 'A':
                 self._ace_count += 1
-            self._split_count += 1
+                self.split_aces = True
+            self.split_count += 1
 
     def deal_hand(self, shoe):
         """Deals a new 2 card blackjack hand.
@@ -60,26 +62,28 @@ class Hand(object):
         return hand_value
 
     def display_hand(self):
-        """Prints the cards in the hand."""
+        """Returns the cards in the hand in the form of 'RsRs...'."""
+        cards = ""
         for card in self._cards:
-            print card.rank + card.suit,
+            cards += card.rank + card.suit
+        return cards
 
     def display_one_dealer_card(self):
-        """Prints only one card in the dealer's hand."""
-        print self._cards[0].rank + self._cards[0].suit
+        """Returns the first card as a string in the form 'Rs'"""
+        return self._cards[0].rank + self._cards[0].suit
 
     def split(self):
         """Splits a two card hand and returns two one card hands."""
         card_one = self._cards[0]
         card_two = self._cards[1]
-        hand_one = Hand(True, card_one, self._split_count)
-        hand_two = Hand(True, card_two, self._split_count)
+        hand_one = Hand(True, card_one, self.split_count)
+        hand_two = Hand(True, card_two, self.split_count)
         return hand_one, hand_two
 
     def split_allowed(self):
         """Returns True if split is allowed, otherwise False."""
         if len(self._cards) == 2 and (
-            self._split_count < _MAX_SPLITS_ALLOWED) and (
+            self.split_count < _MAX_SPLITS_ALLOWED) and (
             self._cards[0].rank == self._cards[1].rank):
                 return True
         else:
@@ -87,7 +91,7 @@ class Hand(object):
 
     def double_down_allowed(self):
         """Returns True if double down is allowed, False otherwise."""
-        if len(self._cards) == 2 and self._split_count == 0 and (
+        if len(self._cards) == 2 and self.split_count == 0 and (
             self._doubled_down is False):
                 return True
         else:
