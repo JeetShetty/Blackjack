@@ -14,7 +14,6 @@ class Hand(object):
                 up the new hand.
         """
         self.split_count = split_count
-        self.split_aces = False
         self._ace_count = 0
         self._doubled_down = False
         self._cards = ()
@@ -23,7 +22,6 @@ class Hand(object):
             self._cards = split_card,
             if self._cards[0].rank == 'A':
                 self._ace_count += 1
-                self.split_aces = True
             self.split_count += 1
 
     def deal_hand(self, shoe):
