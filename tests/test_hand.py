@@ -51,6 +51,21 @@ class TestHand(unittest.TestCase):
         new_hand_one, new_hand_two = bj_hand.split()
         self.assertEqual(new_hand_one._cards, (mock_card_one,))
         self.assertEqual(new_hand_two._cards, (mock_card_two,))
+        self.assertEqual(new_hand_one.split_count, new_hand_two.split_count, 1)
+
+    def test_split_aces(self):
+        mock_shoe = mock.Mock()
+        mock_card_one = mock.Mock()
+        mock_card_two = mock.Mock()
+        mock_card_one.rank = mock_card_two.rank = 'A'
+        mock_shoe.deal_card.side_effect = [mock_card_one, mock_card_two]
+        bj_hand = hand.Hand()
+        bj_hand.deal_hand(mock_shoe)
+
+        new_hand_one, new_hand_two = bj_hand.split()
+        self.assertTrue(new_hand_one.split_aces)
+        self.assertTrue(new_hand_two.split_aces)
+        self.assertEqual(new_hand_one._ace_count, new_hand_two._ace_count, 1)
 
     def test_hand_value_without_aces(self):
         mock_shoe = mock.Mock()

@@ -87,6 +87,15 @@ class Round(object):
             shoe: Blackjack shoe.
         """
         skip_dealer_playthrough = False
+
+        if self._player_hands[0].split_aces:
+            for hand in self._player_hands:
+                hand.hit()
+                print ("Split ace hands are only allowed one more card. Your "
+                       "final hand is %s and your final hand value is %s." % (
+                       hand.display_hand(), hand.hand_value()))
+            return skip_dealer_playthrough
+
         print "\nHand: ", self._player_hands[0].display_hand()
         action = self._player_input.action(self._player_hands[0])
 

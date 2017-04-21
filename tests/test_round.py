@@ -60,6 +60,8 @@ class TestRound(unittest.TestCase):
         mock_hand_one = mock.Mock()
         mock_hand_two = mock.Mock()
         mock_hand_three = mock.Mock()
+        mock_hand_one.split_aces = mock_hand_two.split_aces = (
+            mock_hand_three.split_aces) = False
 
         bj_round = round.Round(self.mock_time, mock_player_input,
                                self.mock_bankroll)
@@ -82,6 +84,7 @@ class TestRound(unittest.TestCase):
     def test_play_through_stand(self):
         mock_player_input = mock.Mock()
         mock_hand = mock.Mock()
+        mock_hand.split_aces = False
         bj_round = round.Round(self.mock_time, mock_player_input,
                                self.mock_bankroll)
         bj_round._player_hands = [mock_hand]
@@ -96,6 +99,7 @@ class TestRound(unittest.TestCase):
     def test_play_through_hit_once_and_bust(self):
         mock_player_input = mock.Mock()
         mock_hand = mock.Mock()
+        mock_hand.split_aces = False
         bj_round = round.Round(self.mock_time, mock_player_input,
                                self.mock_bankroll)
         bj_round._player_hands = [mock_hand]
@@ -106,6 +110,18 @@ class TestRound(unittest.TestCase):
 
         self.assertFalse(mock_hand.split.called)
         self.assertEqual(mock_hand.hit.call_count, 1)
+
+    def test_play_through_split_aces(self):
+        mock_hand_one = mock.Mock()
+        mock_hand_two = mock.Mock()
+        mock_hand_one.split_aces = mock_hand_two.split_aces = True
+        bj_round = round.Round(self.mock_time, None, self.mock_bankroll)
+        bj_round._player_hands = [mock_hand_one, mock_hand_two]
+        bust = bj_round.play_through_player_hands(self.mock_shoe)
+
+        self.assertFalse(bust)
+        mock_hand_one.hit.assert_called_once()
+        mock_hand_two.hit.assert_called_once()
 
     def increase_hand_value(self, x):
         self.hand_value += 5
